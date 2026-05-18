@@ -1,9 +1,35 @@
 // Pata de Veludo — root app
 const { useState: useS, useEffect: useE } = React;
 
+// Session-gated admin access: requires valid token in sessionStorage
+const ADMIN_TOKEN_KEY = "pv_admin_session";
+const ADMIN_SECRET_HASH = "pbkdf2:veludo2025:admin"; // server should validate properly
+
+function isAdminAuthorized() {
+  try {
+    const tok = sessionStorage.getItem(ADMIN_TOKEN_KEY);
+    return tok === ADMIN_SECRET_HASH;
+  } catch { return false; }
+}
+
+function requestAdminAccess() {
+  // Temporary gate for legacy app — new Next.js admin uses OTP+Gmail
+  const pass = window.prompt("Painel restrito. Digite a senha de administrador:");
+  if (!pass) return false;
+  // In production this should be a server-side check. This is a stopgap.
+  const isValid = pass === "veludo@admin2025";
+  if (isValid) {
+    try { sessionStorage.setItem(ADMIN_TOKEN_KEY, ADMIN_SECRET_HASH); } catch {}
+  } else {
+    alert("Senha incorreta.");
+  }
+  return isValid;
+}
+
 function App() {
+  const initialHash = window.location.hash === "#admin";
   const [route, setRoute] = useS(
-    window.location.hash === "#admin" ? { view: "admin" } : { view: "home" }
+    initialHash && isAdminAuthorized() ? { view: "admin" } : { view: "home" }
   );
   const [cart, setCart] = useS([]);
   const [cartOpen, setCartOpen] = useS(false);
@@ -12,8 +38,16 @@ function App() {
   // Listen hash changes for /admin route
   useE(() => {
     const onHash = () => {
-      if (window.location.hash === "#admin") setRoute({ view: "admin" });
-      else if (route.view === "admin") setRoute({ view: "home" });
+      if (window.location.hash === "#admin") {
+        if (isAdminAuthorized() || requestAdminAccess()) {
+          setRoute({ view: "admin" });
+        } else {
+          // Clear hash without granting access
+          window.history.replaceState(null, "", window.location.pathname);
+        }
+      } else if (route.view === "admin") {
+        setRoute({ view: "home" });
+      }
     };
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
