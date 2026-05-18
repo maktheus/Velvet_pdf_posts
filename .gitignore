@@ -4,3 +4,5 @@ node_modules/
 frontend/tsconfig.tsbuildinfo
 frontend/next-env.d.ts
 admin-frontend/next-env.d.ts
+frontend/coverage/
+admin-frontend/coverage/
