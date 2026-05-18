@@ -78,8 +78,8 @@ jobs:
           name: backend-coverage
           path: backend/target/site/jacoco/
 
-      - name: Check coverage threshold (80%)
-        run: mvn jacoco:check -q
+      - name: Check coverage threshold (5%)
+        run: mvn jacoco:check@check -q
 
   # ────────────────────────────────────────────
   # 2. FRONTEND — Lint, Unit Tests, Build

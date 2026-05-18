@@ -1,5 +1,6 @@
 package com.mutum.patadeveludo.service.payment;
 
+import com.mutum.patadeveludo.service.payment.dto.PaymentStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

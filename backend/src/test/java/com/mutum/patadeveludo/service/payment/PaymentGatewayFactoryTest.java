@@ -1,6 +1,10 @@
 package com.mutum.patadeveludo.service.payment;
 
 import com.mutum.patadeveludo.exception.UnsupportedGatewayException;
+import com.mutum.patadeveludo.service.payment.dto.PaymentRequest;
+import com.mutum.patadeveludo.service.payment.dto.PaymentResponse;
+import com.mutum.patadeveludo.service.payment.dto.PaymentStatus;
+import com.mutum.patadeveludo.service.payment.dto.RefundResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

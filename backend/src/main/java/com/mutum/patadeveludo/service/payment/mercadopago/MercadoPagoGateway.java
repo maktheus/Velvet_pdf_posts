@@ -6,7 +6,6 @@ import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.client.payment.PaymentCreateRequest;
 import com.mercadopago.client.payment.PaymentPayerRequest;
 import com.mercadopago.client.payment.PaymentRefundClient;
-import com.mercadopago.client.payment.PaymentRefundCreateRequest;
 import com.mercadopago.client.preference.PreferenceClient;
 import com.mercadopago.client.preference.PreferenceItemRequest;
 import com.mercadopago.client.preference.PreferenceRequest;
@@ -291,11 +290,8 @@ public class MercadoPagoGateway implements PaymentGateway {
     public RefundResponse refund(String externalId, BigDecimal amount) {
         try {
             PaymentRefundClient refundClient = new PaymentRefundClient();
-            PaymentRefundCreateRequest refundRequest = PaymentRefundCreateRequest.builder()
-                    .amount(amount)
-                    .build();
 
-            PaymentRefund refund = refundClient.refund(Long.parseLong(externalId), refundRequest);
+            PaymentRefund refund = refundClient.refund(Long.parseLong(externalId), amount);
 
             log.info("Refund created for payment {}: refundId={}, amount={}",
                     externalId, refund.getId(), amount);

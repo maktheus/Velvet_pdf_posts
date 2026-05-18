@@ -23,9 +23,9 @@ public enum PaymentStatus {
         return switch (mpStatus.toLowerCase()) {
             case "approved"         -> APPROVED;
             case "authorized"       -> AUTHORIZED;
+            case "pending"          -> PENDING;
             case "in_process",
-                 "in_mediation",
-                 "pending"          -> IN_PROCESS;
+                 "in_mediation"     -> IN_PROCESS;
             case "rejected"         -> REJECTED;
             case "cancelled"        -> CANCELLED;
             case "refunded",
