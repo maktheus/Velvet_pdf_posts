@@ -1,0 +1,17 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+  flyway:
+    enabled: false   # Testcontainers uses create-drop instead
+
+jwt:
+  secret: integration-test-secret-must-be-32-chars
+  expiration-ms: 86400000
+  admin-expiration-ms: 7200000
+
+mercadopago:
+  access-token: TEST_ACCESS_TOKEN
+  webhook-secret: TEST_WEBHOOK_SECRET
+  notification-url: http://localhost/api/payments/webhook

@@ -1,0 +1,24 @@
+# Pata de Veludo — Code Owners
+# Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Padrão — todos os arquivos
+* @stpedr
+
+# Backend Java/Spring Boot
+/backend/ @stpedr
+
+# Frontend loja
+/frontend/ @stpedr
+
+# Admin frontend
+/admin-frontend/ @stpedr
+
+# Infraestrutura crítica — revisão obrigatória
+/k8s/ @stpedr
+/.github/ @stpedr
+/docker-compose.yml @stpedr
+/Makefile @stpedr
+
+# Documentação
+/docs/ @stpedr
+/README.md @stpedr
