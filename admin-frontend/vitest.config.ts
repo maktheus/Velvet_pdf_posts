@@ -1,11 +1,8 @@
 import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
 
 export default defineConfig({
-  plugins: [react()],
   test: {
-    environment: 'jsdom',
+    environment: 'node',
     globals: true,
     passWithNoTests: true,
     coverage: {
@@ -14,5 +11,7 @@ export default defineConfig({
       exclude: ['node_modules', '.next'],
     },
   },
-  resolve: { alias: { '@': resolve(__dirname, 'src') } },
+  resolve: {
+    alias: { '@': new URL('./src', import.meta.url).pathname },
+  },
 });

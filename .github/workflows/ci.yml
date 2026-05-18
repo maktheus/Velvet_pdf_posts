@@ -116,13 +116,7 @@ jobs:
         run: npm run type-check
 
       - name: Unit tests
-        run: npm run test:unit -- --coverage --passWithNoTests
-
-      - name: Upload coverage
-        uses: actions/upload-artifact@v4
-        with:
-          name: frontend-coverage
-          path: frontend/coverage/
+        run: npm run test:unit -- --passWithNoTests
 
       - name: Build
         run: npm run build
@@ -165,7 +159,7 @@ jobs:
         run: npm run type-check
 
       - name: Unit tests
-        run: npm run test:unit -- --coverage --passWithNoTests
+        run: npm run test:unit -- --passWithNoTests
 
       - name: Build
         run: npm run build
