@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: patadeveludo
+data:
+  NEXT_PUBLIC_API_URL: "https://api.patadeveludo.com.br/api"
