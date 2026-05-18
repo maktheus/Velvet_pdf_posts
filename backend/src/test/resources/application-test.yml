@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/patadeveludo_test}
+    username: ${DB_USER:test}
+    password: ${DB_PASS:test}
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+  flyway:
+    enabled: false
+
+jwt:
+  secret: test-secret-must-be-at-least-32-chars-long
+  expiration-ms: 86400000
+  admin-expiration-ms: 7200000
+
+mercadopago:
+  access-token: TEST_ACCESS_TOKEN
+  webhook-secret: TEST_WEBHOOK_SECRET
+  notification-url: http://localhost/api/payments/webhook
+
+cors:
+  allowed-origins: http://localhost:3000
