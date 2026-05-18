@@ -14,7 +14,7 @@ export default function Footer() {
           </div>
           {[
             { title: 'Loja', links: [['Brincar','/cat/brincar'],['Descansar','/cat/descansar'],['Hidratar','/cat/hidratar'],['Cuidar','/cat/cuidar'],['Kits','/kits']] },
-            { title: 'Ajuda', links: [['Como funciona','#'],['Trocas e devoluções','#'],['Frete e prazos','#'],['FAQ','#']] },
+            { title: 'Ajuda', links: [['Como funciona','#'],['Trocas e devoluções','#'],['Frete e prazos','#'],['FAQ','#'],['Painel Admin','/admin']] },
             { title: 'Social', links: [['Instagram','#'],['TikTok','#'],['Pinterest','#'],['YouTube','#']] },
           ].map(col => (
             <div key={col.title}>

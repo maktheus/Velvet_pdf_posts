@@ -11,10 +11,10 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
   const discount = product.old ? Math.round((1 - product.price / product.old) * 100) : null;
 
   return (
-    <motion.div
+    <motion.article
       initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }} transition={{ delay: index * 0.06, duration: 0.4 }}
-      className="group bg-white rounded-[32px] overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+      className="pv-product group bg-white rounded-[32px] overflow-hidden shadow-sm hover:shadow-md transition-shadow"
     >
       <Link href={`/produto/${product.id}`} className="block relative aspect-[4/3] bg-[#fcebf1] overflow-hidden">
         {mainImg ? (
@@ -47,12 +47,12 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
             {discount && <span className="text-xs font-semibold text-green-600">−{discount}%</span>}
           </div>
           <motion.button whileTap={{ scale: 0.88, rotate: 12 }} onClick={() => addItem(product)}
-            className="w-10 h-10 rounded-full bg-[#ed6058] text-white flex items-center justify-center flex-shrink-0 hover:bg-[#d94f47] transition-colors"
+            className="pv-product-add w-10 h-10 rounded-full bg-[#ed6058] text-white flex items-center justify-center flex-shrink-0 hover:bg-[#d94f47] transition-colors"
             aria-label={`Adicionar ${product.name}`}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           </motion.button>
         </div>
       </div>
-    </motion.div>
+    </motion.article>
   );
 }

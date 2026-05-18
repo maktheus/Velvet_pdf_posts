@@ -219,12 +219,12 @@ export default function CheckoutView() {
                 <span className="text-[#2a1612]/60">Frete</span>
                 {frete===0 ? <span className="text-green-600 font-semibold">Grátis</span> : <span>R$ {frete.toFixed(2).replace('.',',')}</span>}
               </div>
-              {discount > 0 && <div className="flex justify-between text-green-600"><span>Desconto</span><span>−R$ {discount.toFixed(2).replace('.',',')}</span></div>}
+              {discount > 0 && <div className="flex justify-between text-green-600"><span>Desconto (10%)</span><span>−R$ {discount.toFixed(2).replace('.',',')}</span></div>}
             </div>
             <div className="flex gap-2 my-4">
               <input value={coupon} onChange={e => setCoupon(e.target.value)} placeholder="Cupom de desconto"
                 className="flex-1 px-3 py-2 rounded-[12px] border border-[#2a1612]/20 focus:border-[#ed6058] outline-none text-sm"/>
-              <button onClick={applyCoupon} className="px-4 py-2 bg-[#2a1612] text-white rounded-[12px] text-sm font-medium hover:bg-[#ed6058] transition">OK</button>
+              <button onClick={applyCoupon} className="px-4 py-2 bg-[#2a1612] text-white rounded-[12px] text-sm font-medium hover:bg-[#ed6058] transition">Aplicar</button>
             </div>
             <div className="border-t border-[#2a1612]/10 pt-3 flex justify-between font-bold">
               <span>Total</span>

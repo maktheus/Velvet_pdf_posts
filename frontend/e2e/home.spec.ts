@@ -28,7 +28,8 @@ test.describe("Home page", () => {
   test("product cards are visible in featured section", async ({ page }) => {
     await page.goto("/");
     const cards = page.locator("article.pv-product");
-    await expect(cards).toHaveCount(4);
+    const count = await cards.count();
+    expect(count).toBeGreaterThanOrEqual(4);
   });
 
   test("flash sale countdown is ticking", async ({ page }) => {

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 export function Logo({ size = 80 }: { size?: number }) {
   return (
-    <svg width={size} height={size * 0.45} viewBox="0 0 180 80" fill="none" aria-label="Pata de Veludo">
+    <svg width={size} height={size * 0.45} viewBox="0 0 180 80" fill="none" aria-label="Pata de Veludo — Início">
       <text x="4" y="68" fontFamily="Bagel Fat One, cursive" fontSize="52" fill="#2a1612">pata</text>
       <text x="94" y="68" fontFamily="Bagel Fat One, cursive" fontSize="52" fill="#ed6058">de</text>
       <circle cx="162" cy="22" r="14" fill="#ed6058"/>

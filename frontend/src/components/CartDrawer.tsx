@@ -32,7 +32,7 @@ export default function CartDrawer() {
               {items.length === 0 ? (
                 <div className="text-center py-16 text-[#2a1612]/50">
                   <div className="text-6xl mb-4">🐾</div>
-                  <p className="font-semibold text-lg text-[#2a1612]">Carrinho vazio.</p>
+                  <p className="font-semibold text-lg text-[#2a1612]">O cesto do seu gato está vazio.</p>
                   <p className="text-sm mt-1">Seu gato merece um mimo!</p>
                   <button onClick={() => setCartOpen(false)} className="mt-4 text-[#ed6058] font-semibold underline text-sm">
                     Ver brinquedos
@@ -44,7 +44,7 @@ export default function CartDrawer() {
                     <motion.div key={product.id} layout
                       initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 24 }}
                       transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-                      className="flex gap-3 p-3 bg-white rounded-[20px]"
+                      className="pv-drawer-item flex gap-3 p-3 bg-white rounded-[20px]"
                     >
                       <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0" style={{ background: product.colorways[0] || '#fcebf1' }}>
                         {product.images?.[0] && <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover"/>}
@@ -66,13 +66,20 @@ export default function CartDrawer() {
             </div>
             {items.length > 0 && (
               <motion.div layout className="px-6 py-5 border-t border-[#2a1612]/10 space-y-3">
+                {frete > 0 && (
+                  <div>
+                    <p className="text-xs text-[#2a1612]/60 mb-1">Falta R$ {(149 - total).toFixed(2).replace('.', ',')} para frete grátis</p>
+                    <div className="pv-progress-bar h-2 bg-[#2a1612]/10 rounded-full overflow-hidden">
+                      <div className="h-full bg-[#ed6058] rounded-full transition-all" style={{ width: `${Math.min(100, (total / 149) * 100)}%` }} />
+                    </div>
+                  </div>
+                )}
                 <div className="space-y-1.5 text-sm">
                   <div className="flex justify-between"><span className="text-[#2a1612]/60">Subtotal</span><span>R$ {total.toFixed(2).replace('.', ',')}</span></div>
                   <div className="flex justify-between">
                     <span className="text-[#2a1612]/60">Frete</span>
                     {frete === 0 ? <span className="text-green-600 font-semibold">Grátis 🎉</span> : <span>R$ {frete.toFixed(2).replace('.', ',')}</span>}
                   </div>
-                  {frete > 0 && <p className="text-xs text-[#ed6058]">Falta R$ {(149 - total).toFixed(2).replace('.', ',')} para frete grátis</p>}
                 </div>
                 <div className="flex justify-between font-bold text-base">
                   <span>Total</span>

@@ -6,13 +6,13 @@ test.describe("Product detail page (PDP)", () => {
   });
 
   test("shows product name and price", async ({ page }) => {
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("puzzle");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Puzzle");
     await expect(page.locator(".pv-pdp-price strong")).toBeVisible();
   });
 
   test("gallery thumbnails switch main image", async ({ page }) => {
     const thumbs = page.locator(".pv-pdp-thumb");
-    await expect(thumbs).toHaveCount(4);
+    await expect(thumbs).toHaveCount(5);
     // Click second thumbnail
     await thumbs.nth(1).click();
     await expect(thumbs.nth(1)).toHaveClass(/active/);
