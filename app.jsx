@@ -144,15 +144,17 @@ function App() {
             </section>
             <section className="pv-diary-grid">
               {[
-                { t: "por que seu gato vira pãozinho", e: "comportamento · 4 min", c: "#ed6058" },
-                { t: "ritual de boas-vindas para gato novo", e: "rotina · 6 min", c: "#fcebf1" },
-                { t: "fontes de água: o que importa de verdade", e: "produto · 5 min", c: "#fdfedf" },
-                { t: "três caças curtas valem mais que uma longa", e: "comportamento · 3 min", c: "#fcebf1" },
-                { t: "catnip: como, quando e quanto", e: "guia · 4 min", c: "#fdfedf" },
-                { t: "a caixa importa mais que o brinquedo?", e: "ensaio · 7 min", c: "#ed6058" }
+                { t: "por que seu gato vira pãozinho", e: "comportamento · 4 min", c: "#ed6058", img: "uploads/sprinx-dois.png" },
+                { t: "ritual de boas-vindas para gato novo", e: "rotina · 6 min", c: "#fcebf1", img: "uploads/gatos-branco.jpg" },
+                { t: "fontes de água: o que importa de verdade", e: "produto · 5 min", c: "#fdfedf", img: "uploads/siames-white.jpg" },
+                { t: "três caças curtas valem mais que uma longa", e: "comportamento · 3 min", c: "#fcebf1", img: "uploads/laranja-branco.jpg" },
+                { t: "catnip: como, quando e quanto", e: "guia · 4 min", c: "#fdfedf", img: "uploads/XgZpL.jpg" },
+                { t: "a caixa importa mais que o brinquedo?", e: "ensaio · 7 min", c: "#ed6058", img: "uploads/pasted-1778897490905-0.png" }
               ].map((a, i) => (
                 <Squircle key={i} color={a.c} className={`pv-diary-card ${a.c === "#ed6058" ? "pv-diary-dark" : ""}`}>
-                  <ProductPlaceholder label="imagem do post" color={a.c === "#ed6058" ? "#fdfedf" : "#ed6058"} bg={a.c}/>
+                  <div className="pv-placeholder" style={{ position: "relative", aspectRatio: "4/3", overflow: "hidden" }}>
+                    <img src={a.img} alt={a.t} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>
+                  </div>
                   <div className="pv-diary-meta">
                     <span>{a.e}</span>
                     <h3>{a.t}</h3>
