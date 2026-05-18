@@ -12,7 +12,7 @@ export default function Reviews({ reviews }: { reviews: Review[] }) {
           <motion.div key={i} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
             className="bg-white rounded-[32px] p-6 shadow-sm">
             <StarRating rating={r.rating} />
-            <p className="text-[#2a1612]/80 text-sm leading-relaxed mt-3 mb-4 italic">"{r.text}"</p>
+            <p className="text-[#2a1612]/80 text-sm leading-relaxed mt-3 mb-4 italic">&ldquo;{r.text}&rdquo;</p>
             <div>
               <p className="font-semibold text-sm text-[#2a1612]">{r.who}</p>
               <p className="text-xs text-[#2a1612]/50">{r.city}</p>
