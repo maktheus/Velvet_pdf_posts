@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --coral: #ed6058;
+  --cream: #fdfedf;
+  --pink: #fcebf1;
+  --ink: #2a1612;
+  --bg: #faf6ef;
+  --gold: #f2c98a;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .display {
+  font-family: 'Bagel Fat One', cursive;
+}
+
+.squircle {
+  border-radius: 32px;
+  overflow: hidden;
+}
+
+.squircle-sm {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--coral); border-radius: 99px; }
