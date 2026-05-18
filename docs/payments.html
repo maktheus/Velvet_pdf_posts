@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagamentos — Pata de Veludo Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #ed6058;
+      --cream: #fdfedf;
+      --pink: #fcebf1;
+      --ink: #2a1612;
+      --bg: #faf6ef;
+      --font-display: 'Bagel Fat One', cursive;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --radius-card: 32px;
+      --radius-pill: 999px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 240px;
+      min-width: 240px;
+      background: var(--ink);
+      color: var(--cream);
+      display: flex;
+      flex-direction: column;
+      padding: 32px 20px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-logo {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      color: var(--primary);
+      letter-spacing: 0.04em;
+      margin-bottom: 36px;
+      line-height: 1.2;
+    }
+
+    .sidebar-logo span {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      color: var(--cream);
+      opacity: 0.5;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .nav-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.45;
+      margin-bottom: 10px;
+    }
+
+    .sidebar nav a {
+      display: block;
+      padding: 9px 14px;
+      border-radius: 12px;
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 400;
+      opacity: 0.7;
+      transition: background 0.15s, opacity 0.15s;
+      margin-bottom: 2px;
+    }
+
+    .sidebar nav a:hover { opacity: 1; background: rgba(253,254,223,0.06); }
+    .sidebar nav a.active { background: var(--primary); opacity: 1; font-weight: 500; }
+
+    .sidebar-footer { margin-top: auto; padding-top: 24px; font-size: 0.72rem; opacity: 0.35; }
+
+    /* ── Main ── */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 48px 56px;
+      max-width: 960px;
+    }
+
+    /* ── Page header ── */
+    .page-header { margin-bottom: 48px; }
+
+    .page-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 500;
+    }
+
+    .badge-dark { background: var(--ink); color: var(--cream); }
+    .badge-coral { background: var(--primary); color: var(--cream); }
+    .badge-cream { background: var(--cream); color: var(--ink); }
+
+    /* ── Section ── */
+    .section { margin-bottom: 52px; }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+
+    .section-desc {
+      font-size: 0.9rem;
+      color: var(--ink);
+      opacity: 0.65;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    /* ── Code block ── */
+    .code-block-wrap { margin-bottom: 20px; }
+
+    .code-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--ink);
+      opacity: 0.45;
+      margin-bottom: 6px;
+      padding-left: 4px;
+      letter-spacing: 0.06em;
+    }
+
+    pre {
+      background: var(--ink);
+      color: var(--cream);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      border-radius: 16px;
+      padding: 24px;
+      overflow-x: auto;
+      line-height: 1.65;
+    }
+
+    .token-comment { color: #a07a76; font-style: italic; }
+    .token-keyword { color: #f9a3a0; }
+    .token-type    { color: #fde68a; }
+    .token-string  { color: #a3e6c8; }
+    .token-annot   { color: #fbbf88; }
+    .token-method  { color: #93c5fd; }
+
+    /* ── Feature cards (MP) ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .feature-card {
+      background: var(--pink);
+      border-radius: 24px;
+      padding: 20px;
+    }
+
+    .feature-card-icon { font-size: 1.5rem; margin-bottom: 8px; }
+
+    .feature-card-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .feature-card-sub {
+      font-size: 0.78rem;
+      color: var(--ink);
+      opacity: 0.6;
+      line-height: 1.5;
+    }
+
+    /* ── Webhook events ── */
+    .event-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .event-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--cream);
+      border-radius: 12px;
+      padding: 12px 16px;
+    }
+
+    .event-name {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--ink);
+      flex: 1;
+    }
+
+    .event-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .event-desc {
+      font-size: 0.8rem;
+      color: var(--ink);
+      opacity: 0.55;
+    }
+
+    /* ── Steps list ── */
+    .steps-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: var(--pink);
+      border-radius: 16px;
+      padding: 16px 20px;
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .step-content-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+
+    .step-content-desc {
+      font-size: 0.82rem;
+      color: var(--ink);
+      opacity: 0.6;
+      line-height: 1.5;
+    }
+
+    /* ── Table ── */
+    .table-wrap { border-radius: 20px; overflow: hidden; border: 1.5px solid rgba(42,22,18,0.1); }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+
+    thead tr { background: var(--ink); color: var(--cream); }
+
+    thead th {
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 500;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      font-family: var(--font-mono);
+    }
+
+    tbody tr:nth-child(even) { background: var(--pink); }
+    tbody tr:nth-child(odd) { background: var(--bg); }
+    tbody tr:hover { background: var(--cream); }
+
+    td { padding: 11px 16px; vertical-align: top; line-height: 1.5; }
+
+    td code {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      background: rgba(42,22,18,0.06);
+      padding: 2px 7px;
+      border-radius: 6px;
+      color: var(--primary);
+    }
+
+    .status-atual    { background: #d4f5e2; color: #166534; padding: 3px 10px; border-radius: 99px; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; }
+    .status-plan     { background: #dbeafe; color: #1e40af; padding: 3px 10px; border-radius: 99px; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; }
+    .status-avaliar  { background: #f3f4f6; color: #4b5563; padding: 3px 10px; border-radius: 99px; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      PATA DE VELUDO
+      <span>developer docs</span>
+    </div>
+    <p class="nav-label">navegação</p>
+    <nav>
+      <a href="index.html">visão geral</a>
+      <a href="frontend.html">frontend</a>
+      <a href="backend.html">backend</a>
+      <a href="payments.html" class="active">pagamentos</a>
+      <a href="admin.html">admin</a>
+    </nav>
+    <div class="sidebar-footer">v1.0 · 2025</div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <!-- Header -->
+    <div class="page-header">
+      <p class="page-eyebrow">pata de veludo / pagamentos</p>
+      <h1 class="page-title">pagamentos —<br>gateway extensível</h1>
+      <div class="badge-row">
+        <span class="badge badge-coral">Mercado Pago</span>
+        <span class="badge badge-dark">Strategy Pattern</span>
+        <span class="badge badge-cream">Pix · Cartão · Boleto</span>
+      </div>
+    </div>
+
+    <!-- Arquitetura -->
+    <section class="section">
+      <h2 class="section-title">arquitetura</h2>
+      <p class="section-desc">O sistema de pagamentos usa o <strong>Strategy Pattern</strong>: cada gateway é uma implementação de <code>PaymentGateway</code>. O <code>OrderService</code> nunca conhece o gateway — apenas chama a factory. Trocar ou adicionar um gateway é zero impacto no restante do sistema.</p>
+
+      <div class="code-block-wrap">
+        <p class="code-label">PaymentGateway.java — interface principal</p>
+        <pre><span class="token-comment">// Interface (nunca muda quando adicionar novo gateway)</span>
+<span class="token-keyword">public interface</span> <span class="token-type">PaymentGateway</span> {
+    <span class="token-type">PaymentResponse</span>  <span class="token-method">createPayment</span>(<span class="token-type">PaymentRequest</span> request);
+    <span class="token-type">PaymentStatus</span>    <span class="token-method">getStatus</span>(<span class="token-type">String</span> externalId);
+    <span class="token-type">RefundResponse</span>   <span class="token-method">refund</span>(<span class="token-type">String</span> externalId, <span class="token-type">BigDecimal</span> amount);
+    <span class="token-keyword">void</span>             <span class="token-method">processWebhook</span>(<span class="token-type">String</span> payload, <span class="token-type">String</span> signature);
+    <span class="token-type">String</span>           <span class="token-method">provider</span>();
+}</pre>
+      </div>
+
+      <div class="code-block-wrap">
+        <p class="code-label">PaymentGatewayFactory.java — Spring injeta todos os gateways automaticamente</p>
+        <pre><span class="token-annot">@Service</span>
+<span class="token-keyword">public class</span> <span class="token-type">PaymentGatewayFactory</span> {
+    <span class="token-keyword">private final</span> <span class="token-type">Map</span>&lt;<span class="token-type">String</span>, <span class="token-type">PaymentGateway</span>&gt; gateways;
+
+    <span class="token-keyword">public</span> <span class="token-type">PaymentGatewayFactory</span>(<span class="token-type">List</span>&lt;<span class="token-type">PaymentGateway</span>&gt; all) {
+        <span class="token-keyword">this</span>.gateways = all.stream()
+            .collect(<span class="token-type">Collectors</span>.<span class="token-method">toMap</span>(
+                <span class="token-type">PaymentGateway</span>::provider,
+                g -&gt; g
+            ));
+    }
+
+    <span class="token-keyword">public</span> <span class="token-type">PaymentGateway</span> <span class="token-method">get</span>(<span class="token-type">String</span> provider) {
+        <span class="token-keyword">return</span> <span class="token-type">Optional</span>.<span class="token-method">ofNullable</span>(gateways.<span class="token-method">get</span>(provider))
+            .<span class="token-method">orElseThrow</span>(() -&gt; <span class="token-keyword">new</span> <span class="token-type">UnsupportedGatewayException</span>(provider));
+    }
+}</pre>
+      </div>
+
+      <div class="code-block-wrap">
+        <p class="code-label">StripeGateway.java — adicionar Stripe amanhã: zero mudança em OrderService</p>
+        <pre><span class="token-comment">// Adicionar Stripe amanhã: zero mudança em OrderService</span>
+<span class="token-annot">@Component</span>(<span class="token-string">"stripe"</span>)
+<span class="token-keyword">public class</span> <span class="token-type">StripeGateway</span> <span class="token-keyword">implements</span> <span class="token-type">PaymentGateway</span> {
+    <span class="token-annot">@Override</span> <span class="token-keyword">public</span> <span class="token-type">String</span> <span class="token-method">provider</span>() { <span class="token-keyword">return</span> <span class="token-string">"stripe"</span>; }
+    <span class="token-comment">// ... implementar os 4 métodos</span>
+}</pre>
+      </div>
+    </section>
+
+    <!-- Mercado Pago -->
+    <section class="section">
+      <h2 class="section-title">mercado pago — atual</h2>
+      <p class="section-desc">Gateway ativo em produção. Três métodos de pagamento suportados.</p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-card-icon">⚡</div>
+          <div class="feature-card-title">Pix</div>
+          <div class="feature-card-sub">5% de desconto automático aplicado no <code>PaymentRequest</code>.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">💳</div>
+          <div class="feature-card-title">Cartão de Crédito</div>
+          <div class="feature-card-sub">Parcelamento em até 4x sem juros configurado via preference.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">📄</div>
+          <div class="feature-card-title">Boleto</div>
+          <div class="feature-card-sub">Vencimento em 3 dias úteis. URL do boleto retornada no response.</div>
+        </div>
+      </div>
+
+      <p style="font-family: var(--font-display); font-size: 1rem; margin-bottom: 12px; color: var(--ink);">webhook events tratados</p>
+      <div class="event-list">
+        <div class="event-item">
+          <div class="event-dot"></div>
+          <span class="event-name">payment.created</span>
+          <span class="event-desc">Pedido registrado, aguarda confirmação</span>
+        </div>
+        <div class="event-item">
+          <div class="event-dot" style="background:#16a34a;"></div>
+          <span class="event-name">payment.approved</span>
+          <span class="event-desc">Pagamento aprovado — dispara fulfillment</span>
+        </div>
+        <div class="event-item">
+          <div class="event-dot" style="background:#dc2626;"></div>
+          <span class="event-name">payment.rejected</span>
+          <span class="event-desc">Pagamento recusado — status do pedido atualizado</span>
+        </div>
+        <div class="event-item">
+          <div class="event-dot" style="background:#2563eb;"></div>
+          <span class="event-name">payment.refunded</span>
+          <span class="event-desc">Reembolso processado pelo gateway</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Adicionar novo gateway -->
+    <section class="section">
+      <h2 class="section-title">adicionar novo gateway</h2>
+      <div class="steps-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div>
+            <div class="step-content-title">Criar a classe do gateway</div>
+            <div class="step-content-desc">Criar <code>XyzGateway implements PaymentGateway</code> no pacote <code>infra.payment</code>. Anotar com <code>@Component("xyz")</code>.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div>
+            <div class="step-content-title">Implementar os 4 métodos</div>
+            <div class="step-content-desc"><code>createPayment</code>, <code>getStatus</code>, <code>refund</code> e <code>processWebhook</code>. Mapear modelos do provider para os DTOs internos.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div>
+            <div class="step-content-title">Adicionar variáveis de ambiente</div>
+            <div class="step-content-desc">Credenciais do novo gateway no <code>application.yml</code> e documentar na tabela de env vars do backend.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div>
+            <div class="step-content-title">Registrar endpoint de webhook</div>
+            <div class="step-content-desc">O <code>PaymentController</code> roteia para o gateway correto via provider. Nenhuma mudança no controller — apenas configurar a URL no painel do provider.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">5</div>
+          <div>
+            <div class="step-content-title">Testes de integração</div>
+            <div class="step-content-desc">Implementar <code>XyzGatewayIntegrationTest</code> com mocks do provider SDK. Testar todos os cenários de webhook.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mapa de gateways -->
+    <section class="section">
+      <h2 class="section-title">mapa de gateways futuros</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Provider</th>
+              <th>Mercado Pago</th>
+              <th>Stripe</th>
+              <th>PagarMe</th>
+              <th>PayPal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:500;">Status</td>
+              <td><span class="status-atual">Atual</span></td>
+              <td><span class="status-plan">Planejado</span></td>
+              <td><span class="status-plan">Planejado</span></td>
+              <td><span class="status-avaliar">A avaliar</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:500;">Pix</td>
+              <td>✅</td>
+              <td>—</td>
+              <td>✅</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td style="font-weight:500;">Cartão de Crédito</td>
+              <td>✅</td>
+              <td>✅</td>
+              <td>✅</td>
+              <td>✅</td>
+            </tr>
+            <tr>
+              <td style="font-weight:500;">Boleto</td>
+              <td>✅</td>
+              <td>—</td>
+              <td>✅</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td style="font-weight:500;">Recorrência</td>
+              <td>—</td>
+              <td>✅</td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PaymentRequest DTO -->
+    <section class="section">
+      <h2 class="section-title">paymentrequest dto</h2>
+      <p class="section-desc">DTO de entrada para <code>PaymentGateway.createPayment()</code>. Agnóstico ao provider.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Campo</th>
+              <th>Tipo</th>
+              <th>Obrigatório</th>
+              <th>Descrição</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>orderId</code></td>
+              <td>String</td>
+              <td>✅</td>
+              <td>ID interno do pedido para correlação</td>
+            </tr>
+            <tr>
+              <td><code>amount</code></td>
+              <td>BigDecimal</td>
+              <td>✅</td>
+              <td>Valor em reais (ex: <code>149.90</code>)</td>
+            </tr>
+            <tr>
+              <td><code>method</code></td>
+              <td>PaymentMethod</td>
+              <td>✅</td>
+              <td>Enum: <code>PIX</code>, <code>CREDIT_CARD</code>, <code>BOLETO</code></td>
+            </tr>
+            <tr>
+              <td><code>customer</code></td>
+              <td>CustomerDTO</td>
+              <td>✅</td>
+              <td>Nome, e-mail, CPF do comprador</td>
+            </tr>
+            <tr>
+              <td><code>items</code></td>
+              <td>List&lt;ItemDTO&gt;</td>
+              <td>✅</td>
+              <td>Itens do pedido com título, qty e unit price</td>
+            </tr>
+            <tr>
+              <td><code>cardToken</code></td>
+              <td>String</td>
+              <td>⚪</td>
+              <td>Token do cartão (gerado pelo SDK JS do gateway)</td>
+            </tr>
+            <tr>
+              <td><code>installments</code></td>
+              <td>Integer</td>
+              <td>⚪</td>
+              <td>Número de parcelas. Padrão: <code>1</code></td>
+            </tr>
+            <tr>
+              <td><code>metadata</code></td>
+              <td>Map&lt;String,String&gt;</td>
+              <td>⚪</td>
+              <td>Dados extras para rastreamento (ex: UTM source)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>
