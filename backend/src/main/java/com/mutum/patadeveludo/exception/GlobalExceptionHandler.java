@@ -75,7 +75,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(WebhookSignatureException.class)
     public ResponseEntity<ErrorResponse> handleWebhookSignature(WebhookSignatureException ex) {
         log.warn("Invalid webhook signature: {}", ex.getMessage());
-        return ResponseEntity.badRequest()
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(ErrorResponse.of("INVALID_SIGNATURE", ex.getMessage()));
     }
 

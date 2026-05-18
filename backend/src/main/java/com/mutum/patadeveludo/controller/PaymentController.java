@@ -93,6 +93,10 @@ public class PaymentController {
         log.info("Webhook received from provider={}, payloadLength={}",
                 provider, payload != null ? payload.length() : 0);
 
+        if (signature == null || signature.isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+
         paymentService.handleWebhook(provider, payload, signature);
         return ResponseEntity.ok().build();
     }

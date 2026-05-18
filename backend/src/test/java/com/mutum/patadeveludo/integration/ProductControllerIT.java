@@ -58,7 +58,7 @@ class ProductControllerIT {
     void getProduct_unknownId_returns404() throws Exception {
         mockMvc.perform(get("/api/products/non-existent-id").accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNotFound())
-            .andExpect(jsonPath("$.error").value("Not Found"));
+            .andExpect(jsonPath("$.error").value("NOT_FOUND"));
     }
 
     @Test
