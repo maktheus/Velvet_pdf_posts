@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test:unit": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "next": "^14.2.35",
