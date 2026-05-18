@@ -1,6 +1,7 @@
 .claude/worktrees/
 node_modules/
 .next/
+backend/target/
 frontend/tsconfig.tsbuildinfo
 frontend/next-env.d.ts
 admin-frontend/next-env.d.ts
