@@ -1,0 +1,20 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: false
+  flyway:
+    enabled: false
+
+jwt:
+  secret: e2e-secret-at-least-32-chars-long!!
+  expiration-ms: 86400000
+  admin-expiration-ms: 7200000
+
+mercadopago:
+  access-token: TEST_TOKEN
+  webhook-secret: TEST_WEBHOOK
+  notification-url: http://localhost:8080/api/payments/webhook
+
+cors:
+  allowed-origins: http://localhost:3000

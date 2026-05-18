@@ -15,22 +15,18 @@ export default defineConfig({
     video: "retain-on-failure",
   },
 
-  projects: [
-    {
-      name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
-    },
-    {
-      name: "mobile-chrome",
-      use: { ...devices["Pixel 7"] },
-    },
-    {
-      name: "mobile-safari",
-      use: { ...devices["iPhone 14"] },
-    },
-  ],
+  projects: process.env.CI
+    ? [
+        // CI only installs chromium — don't run WebKit (mobile-safari)
+        { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+        { name: "mobile-chrome", use: { ...devices["Pixel 7"] } },
+      ]
+    : [
+        { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+        { name: "mobile-chrome", use: { ...devices["Pixel 7"] } },
+        { name: "mobile-safari", use: { ...devices["iPhone 14"] } },
+      ],
 
-  // Start dev server automatically when running locally
   webServer: process.env.CI
     ? undefined
     : {
