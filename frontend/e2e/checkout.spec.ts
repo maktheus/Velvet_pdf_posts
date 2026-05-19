@@ -8,7 +8,7 @@ test.describe("Checkout flow", () => {
     await page.locator(".pv-product").first().hover();
     await addBtn.click();
     // Go to cart
-    await page.getByLabel("Carrinho").click();
+    await page.getByLabel("Carrinho", { exact: true }).click();
   });
 
   test("cart shows added product", async ({ page }) => {

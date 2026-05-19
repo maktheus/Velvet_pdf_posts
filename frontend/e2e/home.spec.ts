@@ -3,19 +3,20 @@ import { test, expect } from "@playwright/test";
 test.describe("Home page", () => {
   test("loads and shows hero title", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(page.getByText("brinquedos")).toBeVisible();
+    const h1 = page.getByRole("heading", { level: 1 });
+    await expect(h1).toBeVisible();
+    await expect(h1).toContainText("brinquedos");
   });
 
   test("header has logo and cart button", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByLabel("Pata de Veludo — Início")).toBeVisible();
-    await expect(page.getByLabel("Carrinho")).toBeVisible();
+    await expect(page.getByLabel("Carrinho", { exact: true })).toBeVisible();
   });
 
   test("clicking cart opens drawer", async ({ page }) => {
     await page.goto("/");
-    await page.getByLabel("Carrinho").click();
+    await page.getByLabel("Carrinho", { exact: true }).click();
     await expect(page.getByText("cesto do seu gato")).toBeVisible();
   });
 
