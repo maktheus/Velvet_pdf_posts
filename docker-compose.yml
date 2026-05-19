@@ -1,0 +1,74 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: patadeveludo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/patadeveludo
+      DB_USER: postgres
+      DB_PASS: postgres
+      JWT_SECRET: dev-secret-change-in-production
+      MP_ACCESS_TOKEN: ${MP_ACCESS_TOKEN:-TEST_ACCESS_TOKEN}
+      MP_WEBHOOK_SECRET: ${MP_WEBHOOK_SECRET:-dev-webhook-secret}
+      MP_NOTIFICATION_URL: http://localhost:8080/api/payments/webhook
+      CORS_ORIGINS: http://localhost:3000,http://localhost:3001
+      SPRING_PROFILES_ACTIVE: dev
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health | grep -q 'UP'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:8080/api
+      NEXT_PUBLIC_MP_PUBLIC_KEY: ${MP_PUBLIC_KEY:-TEST_PUBLIC_KEY}
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  admin-frontend:
+    build: ./admin-frontend
+    ports:
+      - "3001:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:8080/api
+      NEXT_PUBLIC_ADMIN_API_URL: http://backend:8080/api/admin
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  redis_data:

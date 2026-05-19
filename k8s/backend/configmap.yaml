@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: patadeveludo
+data:
+  DB_URL: "jdbc:postgresql://postgres.patadeveludo.svc.cluster.local:5432/patadeveludo"
+  DB_USER: "postgres"
+  CORS_ORIGINS: "https://patadeveludo.com.br,https://admin.patadeveludo.com.br"
+  MP_NOTIFICATION_URL: "https://api.patadeveludo.com.br/api/payments/webhook"
+  SPRING_PROFILES_ACTIVE: "prod"

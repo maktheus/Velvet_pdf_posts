@@ -1,0 +1,101 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target environment
+        type: choice
+        options: [staging, production]
+        default: staging
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_PREFIX: ghcr.io/${{ github.repository_owner }}/patadeveludo
+
+jobs:
+  deploy-staging:
+    name: Deploy → Staging
+    runs-on: ubuntu-latest
+    environment: staging
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set image tags to commit SHA
+        run: |
+          sed -i "s|:latest|:${{ github.sha }}|g" k8s/backend/deployment.yaml
+          sed -i "s|:latest|:${{ github.sha }}|g" k8s/frontend/deployment.yaml
+          sed -i "s|:latest|:${{ github.sha }}|g" k8s/admin-frontend/deployment.yaml
+
+      - name: Apply to staging
+        run: kubectl apply -k k8s/overlays/staging
+        env:
+          KUBECONFIG: ${{ secrets.KUBECONFIG_STAGING }}
+
+      - name: Wait for rollout
+        run: |
+          kubectl rollout status deployment/backend      -n patadeveludo --timeout=5m
+          kubectl rollout status deployment/frontend     -n patadeveludo --timeout=5m
+          kubectl rollout status deployment/admin-frontend -n patadeveludo --timeout=5m
+
+      - name: Run smoke tests against staging
+        run: |
+          BASE=https://staging.patadeveludo.com.br
+          curl -sf "$BASE/api/actuator/health" | grep -q '"status":"UP"'
+          curl -sf "$BASE/api/products?size=1"  | grep -q '"content"'
+          echo "Smoke tests passed ✓"
+
+  deploy-production:
+    name: Deploy → Production
+    runs-on: ubuntu-latest
+    environment: production
+    needs: deploy-staging
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set image tags to commit SHA
+        run: |
+          sed -i "s|:latest|:${{ github.sha }}|g" k8s/backend/deployment.yaml
+          sed -i "s|:latest|:${{ github.sha }}|g" k8s/frontend/deployment.yaml
+          sed -i "s|:latest|:${{ github.sha }}|g" k8s/admin-frontend/deployment.yaml
+
+      - name: Apply to production
+        run: kubectl apply -k k8s/overlays/prod
+        env:
+          KUBECONFIG: ${{ secrets.KUBECONFIG_PROD }}
+
+      - name: Wait for rollout
+        run: |
+          kubectl rollout status deployment/backend        -n patadeveludo --timeout=10m
+          kubectl rollout status deployment/frontend       -n patadeveludo --timeout=10m
+          kubectl rollout status deployment/admin-frontend -n patadeveludo --timeout=10m
+
+      - name: Run production smoke tests
+        run: |
+          BASE=https://patadeveludo.com.br
+          curl -sf "https://api.patadeveludo.com.br/actuator/health" | grep -q '"status":"UP"'
+          curl -sf "$BASE" -o /dev/null -w "%{http_code}" | grep -q "200"
+          echo "Production smoke tests passed ✓"
+
+      - name: Notify Slack on success
+        if: success()
+        uses: slackapi/slack-github-action@v1
+        with:
+          payload: |
+            {"text": "✅ Pata de Veludo deployed to production — commit ${{ github.sha }} by ${{ github.actor }}"}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Rollback on failure
+        if: failure()
+        run: |
+          echo "Deploy failed — rolling back..."
+          kubectl rollout undo deployment/backend        -n patadeveludo
+          kubectl rollout undo deployment/frontend       -n patadeveludo
+          kubectl rollout undo deployment/admin-frontend -n patadeveludo

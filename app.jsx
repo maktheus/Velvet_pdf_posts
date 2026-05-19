@@ -1,9 +1,35 @@
 // Pata de Veludo — root app
 const { useState: useS, useEffect: useE } = React;
 
+// Session-gated admin access: requires valid token in sessionStorage
+const ADMIN_TOKEN_KEY = "pv_admin_session";
+const ADMIN_SECRET_HASH = "pbkdf2:veludo2025:admin"; // server should validate properly
+
+function isAdminAuthorized() {
+  try {
+    const tok = sessionStorage.getItem(ADMIN_TOKEN_KEY);
+    return tok === ADMIN_SECRET_HASH;
+  } catch { return false; }
+}
+
+function requestAdminAccess() {
+  // Temporary gate for legacy app — new Next.js admin uses OTP+Gmail
+  const pass = window.prompt("Painel restrito. Digite a senha de administrador:");
+  if (!pass) return false;
+  // In production this should be a server-side check. This is a stopgap.
+  const isValid = pass === "veludo@admin2025";
+  if (isValid) {
+    try { sessionStorage.setItem(ADMIN_TOKEN_KEY, ADMIN_SECRET_HASH); } catch {}
+  } else {
+    alert("Senha incorreta.");
+  }
+  return isValid;
+}
+
 function App() {
+  const initialHash = window.location.hash === "#admin";
   const [route, setRoute] = useS(
-    window.location.hash === "#admin" ? { view: "admin" } : { view: "home" }
+    initialHash && isAdminAuthorized() ? { view: "admin" } : { view: "home" }
   );
   const [cart, setCart] = useS([]);
   const [cartOpen, setCartOpen] = useS(false);
@@ -12,8 +38,16 @@ function App() {
   // Listen hash changes for /admin route
   useE(() => {
     const onHash = () => {
-      if (window.location.hash === "#admin") setRoute({ view: "admin" });
-      else if (route.view === "admin") setRoute({ view: "home" });
+      if (window.location.hash === "#admin") {
+        if (isAdminAuthorized() || requestAdminAccess()) {
+          setRoute({ view: "admin" });
+        } else {
+          // Clear hash without granting access
+          window.history.replaceState(null, "", window.location.pathname);
+        }
+      } else if (route.view === "admin") {
+        setRoute({ view: "home" });
+      }
     };
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
@@ -144,15 +178,17 @@ function App() {
             </section>
             <section className="pv-diary-grid">
               {[
-                { t: "por que seu gato vira pãozinho", e: "comportamento · 4 min", c: "#ed6058" },
-                { t: "ritual de boas-vindas para gato novo", e: "rotina · 6 min", c: "#fcebf1" },
-                { t: "fontes de água: o que importa de verdade", e: "produto · 5 min", c: "#fdfedf" },
-                { t: "três caças curtas valem mais que uma longa", e: "comportamento · 3 min", c: "#fcebf1" },
-                { t: "catnip: como, quando e quanto", e: "guia · 4 min", c: "#fdfedf" },
-                { t: "a caixa importa mais que o brinquedo?", e: "ensaio · 7 min", c: "#ed6058" }
+                { t: "por que seu gato vira pãozinho", e: "comportamento · 4 min", c: "#ed6058", img: "uploads/sprinx-dois.png" },
+                { t: "ritual de boas-vindas para gato novo", e: "rotina · 6 min", c: "#fcebf1", img: "uploads/gatos-branco.jpg" },
+                { t: "fontes de água: o que importa de verdade", e: "produto · 5 min", c: "#fdfedf", img: "uploads/siames-white.jpg" },
+                { t: "três caças curtas valem mais que uma longa", e: "comportamento · 3 min", c: "#fcebf1", img: "uploads/laranja-branco.jpg" },
+                { t: "catnip: como, quando e quanto", e: "guia · 4 min", c: "#fdfedf", img: "uploads/XgZpL.jpg" },
+                { t: "a caixa importa mais que o brinquedo?", e: "ensaio · 7 min", c: "#ed6058", img: "uploads/pasted-1778897490905-0.png" }
               ].map((a, i) => (
                 <Squircle key={i} color={a.c} className={`pv-diary-card ${a.c === "#ed6058" ? "pv-diary-dark" : ""}`}>
-                  <ProductPlaceholder label="imagem do post" color={a.c === "#ed6058" ? "#fdfedf" : "#ed6058"} bg={a.c}/>
+                  <div className="pv-placeholder" style={{ position: "relative", aspectRatio: "4/3", overflow: "hidden" }}>
+                    <img src={a.img} alt={a.t} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}/>
+                  </div>
                   <div className="pv-diary-meta">
                     <span>{a.e}</span>
                     <h3>{a.t}</h3>

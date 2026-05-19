@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Pata de Veludo Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #ed6058;
+      --cream: #fdfedf;
+      --pink: #fcebf1;
+      --ink: #2a1612;
+      --bg: #faf6ef;
+      --font-display: 'Bagel Fat One', cursive;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --radius-card: 32px;
+      --radius-pill: 999px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 240px;
+      min-width: 240px;
+      background: var(--ink);
+      color: var(--cream);
+      display: flex;
+      flex-direction: column;
+      padding: 32px 20px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-logo {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      color: var(--primary);
+      letter-spacing: 0.04em;
+      margin-bottom: 36px;
+      line-height: 1.2;
+    }
+
+    .sidebar-logo span {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      color: var(--cream);
+      opacity: 0.5;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .nav-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.45;
+      margin-bottom: 10px;
+    }
+
+    .sidebar nav a {
+      display: block;
+      padding: 9px 14px;
+      border-radius: 12px;
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 400;
+      opacity: 0.7;
+      transition: background 0.15s, opacity 0.15s;
+      margin-bottom: 2px;
+    }
+
+    .sidebar nav a:hover { opacity: 1; background: rgba(253,254,223,0.06); }
+    .sidebar nav a.active { background: var(--primary); opacity: 1; font-weight: 500; }
+
+    .sidebar-footer { margin-top: auto; padding-top: 24px; font-size: 0.72rem; opacity: 0.35; }
+
+    /* ── Main ── */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 48px 56px;
+      max-width: 960px;
+    }
+
+    /* ── Page header ── */
+    .page-header { margin-bottom: 48px; }
+
+    .page-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 500;
+    }
+
+    .badge-dark { background: var(--ink); color: var(--cream); }
+    .badge-coral { background: var(--primary); color: var(--cream); }
+    .badge-cream { background: var(--cream); color: var(--ink); }
+
+    /* ── Callout ── */
+    .callout {
+      background: var(--primary);
+      color: var(--cream);
+      border-radius: 24px;
+      padding: 20px 28px;
+      margin-bottom: 40px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .callout-icon { font-size: 1.4rem; flex-shrink: 0; line-height: 1.3; }
+
+    .callout-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+
+    .callout-text {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      opacity: 0.92;
+    }
+
+    /* ── Section ── */
+    .section { margin-bottom: 52px; }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+
+    .section-desc {
+      font-size: 0.9rem;
+      color: var(--ink);
+      opacity: 0.65;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    /* ── Why-separate cards ── */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 16px;
+    }
+
+    .why-card {
+      background: var(--pink);
+      border-radius: var(--radius-card);
+      padding: 24px;
+    }
+
+    .why-card-icon { font-size: 1.6rem; margin-bottom: 10px; }
+
+    .why-card-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .why-card-desc {
+      font-size: 0.82rem;
+      color: var(--ink);
+      opacity: 0.65;
+      line-height: 1.55;
+    }
+
+    /* ── Auth info ── */
+    .auth-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+    }
+
+    .auth-item {
+      background: var(--cream);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .auth-item-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.45;
+      margin-bottom: 6px;
+    }
+
+    .auth-item-value {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .auth-item-sub {
+      font-size: 0.75rem;
+      opacity: 0.55;
+      margin-top: 3px;
+    }
+
+    /* ── API endpoint list ── */
+    .endpoint-list { display: flex; flex-direction: column; gap: 6px; }
+
+    .endpoint {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--cream);
+      border-radius: 14px;
+      padding: 12px 16px;
+      transition: background 0.12s;
+    }
+
+    .endpoint:hover { background: var(--pink); }
+
+    .method {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 62px;
+      padding: 4px 0;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+
+    .method-get    { background: #d4f5e2; color: #166534; }
+    .method-post   { background: #fde8e6; color: #b91c1c; }
+    .method-put    { background: #fef3c7; color: #92400e; }
+    .method-patch  { background: #dbeafe; color: #1e40af; }
+    .method-delete { background: #fee2e2; color: #991b1b; }
+
+    .endpoint-path {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--ink);
+      flex: 1;
+    }
+
+    .endpoint-desc {
+      font-size: 0.8rem;
+      color: var(--ink);
+      opacity: 0.55;
+      text-align: right;
+    }
+
+    /* ── Deploy info ── */
+    .deploy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .deploy-item {
+      background: var(--pink);
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .deploy-item-icon { font-size: 1.2rem; margin-bottom: 8px; }
+
+    .deploy-item-title {
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .deploy-item-desc {
+      font-size: 0.8rem;
+      color: var(--ink);
+      opacity: 0.6;
+      line-height: 1.5;
+    }
+
+    .deploy-item-val {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--primary);
+      margin-top: 4px;
+    }
+
+    /* ── Roadmap ── */
+    .roadmap-list { display: flex; flex-direction: column; gap: 14px; }
+
+    .roadmap-item {
+      display: flex;
+      gap: 16px;
+      background: var(--cream);
+      border-radius: 16px;
+      padding: 16px 20px;
+      align-items: flex-start;
+    }
+
+    .roadmap-phase {
+      background: var(--ink);
+      color: var(--cream);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .roadmap-phase.future { background: var(--primary); }
+
+    .roadmap-content-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+
+    .roadmap-content-desc {
+      font-size: 0.82rem;
+      color: var(--ink);
+      opacity: 0.6;
+      line-height: 1.5;
+    }
+
+    td code {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      background: rgba(42,22,18,0.06);
+      padding: 2px 7px;
+      border-radius: 6px;
+      color: var(--primary);
+    }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { padding: 28px 20px; }
+      .endpoint { flex-wrap: wrap; }
+      .endpoint-desc { text-align: left; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      PATA DE VELUDO
+      <span>developer docs</span>
+    </div>
+    <p class="nav-label">navegação</p>
+    <nav>
+      <a href="index.html">visão geral</a>
+      <a href="frontend.html">frontend</a>
+      <a href="backend.html">backend</a>
+      <a href="payments.html">pagamentos</a>
+      <a href="admin.html" class="active">admin</a>
+    </nav>
+    <div class="sidebar-footer">v1.0 · 2025</div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <!-- Header -->
+    <div class="page-header">
+      <p class="page-eyebrow">pata de veludo / admin</p>
+      <h1 class="page-title">painel admin —<br>sistema separado</h1>
+      <div class="badge-row">
+        <span class="badge badge-coral">Sistema separado</span>
+        <span class="badge badge-dark">JWT ADMIN</span>
+        <span class="badge badge-cream">Apenas via API REST</span>
+      </div>
+    </div>
+
+    <!-- Callout -->
+    <div class="callout">
+      <div class="callout-icon">⚠️</div>
+      <div>
+        <div class="callout-title">acesso exclusivo via api rest</div>
+        <div class="callout-text">O admin é um sistema separado. Nunca acessa o banco de dados diretamente. Toda operação passa pela API REST com autenticação ADMIN. Isso garante que todas as ações fiquem auditadas e que a superfície de ataque seja minimizada.</div>
+      </div>
+    </div>
+
+    <!-- Por que separado -->
+    <section class="section">
+      <h2 class="section-title">por que separado</h2>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-card-icon">🔒</div>
+          <div class="why-card-title">Segurança</div>
+          <div class="why-card-desc">Superfície de ataque menor. Credenciais admin não ficam no mesmo bundle da loja pública.</div>
+        </div>
+        <div class="why-card">
+          <div class="why-card-icon">🚀</div>
+          <div class="why-card-title">Escalabilidade</div>
+          <div class="why-card-desc">Deploy independente permite escalar loja e admin em momentos diferentes sem conflito.</div>
+        </div>
+        <div class="why-card">
+          <div class="why-card-icon">📋</div>
+          <div class="why-card-title">Auditoria</div>
+          <div class="why-card-desc">Log centralizado na API. Cada ação admin gera entrada de auditoria automaticamente.</div>
+        </div>
+        <div class="why-card">
+          <div class="why-card-icon">🔧</div>
+          <div class="why-card-title">Manutenção</div>
+          <div class="why-card-desc">Times separados podem trabalhar na loja e no admin sem merge conflicts ou deploys acoplados.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Autenticação -->
+    <section class="section">
+      <h2 class="section-title">autenticação</h2>
+      <p class="section-desc">JWT com role <code>ADMIN</code>. Endpoints exclusivos no prefixo <code>/api/admin/**</code> — inacessíveis para tokens de cliente.</p>
+      <div class="auth-grid">
+        <div class="auth-item">
+          <div class="auth-item-label">Role exigida</div>
+          <div class="auth-item-value">ADMIN</div>
+          <div class="auth-item-sub">validado em cada request via <code>@PreAuthorize</code></div>
+        </div>
+        <div class="auth-item">
+          <div class="auth-item-label">Access Token</div>
+          <div class="auth-item-value">2 horas</div>
+          <div class="auth-item-sub">expiração mais curta que token de cliente</div>
+        </div>
+        <div class="auth-item">
+          <div class="auth-item-label">Refresh Token</div>
+          <div class="auth-item-value">7 dias</div>
+          <div class="auth-item-sub">armazenado em httpOnly cookie no admin</div>
+        </div>
+        <div class="auth-item">
+          <div class="auth-item-label">Prefixo de rotas</div>
+          <div class="auth-item-value">/api/admin/**</div>
+          <div class="auth-item-sub">protegidas por SecurityFilterChain separado</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Endpoints admin -->
+    <section class="section">
+      <h2 class="section-title">endpoints admin</h2>
+      <p class="section-desc">Todos os endpoints abaixo requerem token com role <code>ADMIN</code> no header <code>Authorization: Bearer &lt;token&gt;</code>.</p>
+      <div class="endpoint-list">
+
+        <div class="endpoint">
+          <span class="method method-get">GET</span>
+          <span class="endpoint-path">/api/admin/dashboard</span>
+          <span class="endpoint-desc">KPIs: receita, pedidos, conversão</span>
+        </div>
+
+        <div class="endpoint">
+          <span class="method method-get">GET</span>
+          <span class="endpoint-path">/api/admin/orders</span>
+          <span class="endpoint-desc">Lista pedidos com filtros e paginação</span>
+        </div>
+
+        <div class="endpoint">
+          <span class="method method-get">GET</span>
+          <span class="endpoint-path">/api/admin/orders/{id}</span>
+          <span class="endpoint-desc">Detalhe completo do pedido</span>
+        </div>
+
+        <div class="endpoint">
+          <span class="method method-patch">PATCH</span>
+          <span class="endpoint-path">/api/admin/orders/{id}/status</span>
+          <span class="endpoint-desc">Altera status do pedido</span>
+        </div>
+
+        <div class="endpoint">
+          <span class="method method-post">POST</span>
+          <span class="endpoint-path">/api/admin/orders/{id}/ship</span>
+          <span class="endpoint-desc">Marca pedido como enviado + código de rastreio</span>
+        </div>
+
+        <div class="endpoint">
+          <span class="method method-post">POST</span>
+          <span class="endpoint-path">/api/admin/orders/{id}/cancel</span>
+          <span class="endpoint-desc">Cancela pedido e dispara reembolso</span>
+        </div>
+
+        <div class="endpoint">
+          <span class="method method-get">GET</span>
+          <span class="endpoint-path">/api/admin/products</span>
+          <span class="endpoint-desc">Inventário completo com estoque</span>
+        </div>
+
+        <div class="endpoint">
+          <span class="method method-post">POST</span>
+          <span class="endpoint-path">/api/admin/products</span>
+          <span class="endpoint-desc">Cria novo produto</span>
+        </div>
+
+        <div class="endpoint">
+          <span class="method method-put">PUT</span>
+          <span class="endpoint-path">/api/admin/products/{id}</span>
+          <span class="endpoint-desc">Edita produto (preço, estoque, descrição)</span>
+        </div>
+
+        <div class="endpoint">
+          <span class="method method-get">GET</span>
+          <span class="endpoint-path">/api/admin/customers</span>
+          <span class="endpoint-desc">Lista clientes com busca e filtros</span>
+        </div>
+
+        <div class="endpoint">
+          <span class="method method-get">GET</span>
+          <span class="endpoint-path">/api/admin/analytics</span>
+          <span class="endpoint-desc">Dados de observabilidade e métricas</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Deploy -->
+    <section class="section">
+      <h2 class="section-title">deploy</h2>
+      <div class="deploy-grid">
+        <div class="deploy-item">
+          <div class="deploy-item-icon">🌐</div>
+          <div class="deploy-item-title">Subdomínio separado</div>
+          <div class="deploy-item-desc">Admin roda em domínio próprio, isolado da loja.</div>
+          <div class="deploy-item-val">admin.patadeveludo.com.br</div>
+        </div>
+        <div class="deploy-item">
+          <div class="deploy-item-icon">🔑</div>
+          <div class="deploy-item-title">Env vars próprias</div>
+          <div class="deploy-item-desc">Credenciais e secrets do admin nunca compartilhados com o repo da loja.</div>
+          <div class="deploy-item-val">ADMIN_API_URL, ADMIN_JWT_SECRET</div>
+        </div>
+        <div class="deploy-item">
+          <div class="deploy-item-icon">🚧</div>
+          <div class="deploy-item-title">CORS restrito</div>
+          <div class="deploy-item-desc">API só aceita requests do domínio admin — configurado em <code>CORS_ADMIN_ORIGINS</code>.</div>
+          <div class="deploy-item-val">whitelist por domínio</div>
+        </div>
+        <div class="deploy-item">
+          <div class="deploy-item-icon">📦</div>
+          <div class="deploy-item-title">CI/CD independente</div>
+          <div class="deploy-item-desc">Pipeline separado no GitHub Actions. Deploy não depende do deploy da loja.</div>
+          <div class="deploy-item-val">velvet-admin/.github/</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section class="section">
+      <h2 class="section-title">roadmap</h2>
+      <div class="roadmap-list">
+        <div class="roadmap-item">
+          <span class="roadmap-phase">atual</span>
+          <div>
+            <div class="roadmap-content-title">Admin como frontend separado</div>
+            <div class="roadmap-content-desc">Next.js independente, comunicação 100% via API REST autenticada. Banco de dados compartilhado (read/write via API).</div>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <span class="roadmap-phase future">v2</span>
+          <div>
+            <div class="roadmap-content-title">Réplica read-only para o admin</div>
+            <div class="roadmap-content-desc">Roteamento de queries pesadas de analytics para réplica PostgreSQL. Reduz carga na instância principal sem alterar contratos da API.</div>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <span class="roadmap-phase future">v3</span>
+          <div>
+            <div class="roadmap-content-title">Eventual separação para microsserviço</div>
+            <div class="roadmap-content-desc">Se o volume justificar: extrair <code>AdminService</code> para microsserviço próprio com banco separado, comunicando via eventos (Kafka/SQS). A separação atual de frontend/API facilita essa migração futura com mínimo retrabalho.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

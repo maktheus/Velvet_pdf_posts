@@ -1257,7 +1257,12 @@ function ProfileWishlist({ onNav }) {
     heart.className = "pv-heart-float";
     heart.style.left = rect.left + rect.width / 2 + "px";
     heart.style.top = rect.top + rect.height / 2 + "px";
-    heart.innerHTML = '<svg width="32" height="32" viewBox="0 0 24 24" fill="#ed6058" stroke="#ed6058" stroke-width="2"><path d="M12 20 L 4 13 Q 1 9 5 5 Q 9 1 12 6 Q 15 1 19 5 Q 23 9 20 13 Z"/></svg>';
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("width", "32"); svg.setAttribute("height", "32"); svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("fill", "#ed6058"); svg.setAttribute("stroke", "#ed6058"); svg.setAttribute("stroke-width", "2");
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", "M12 20 L 4 13 Q 1 9 5 5 Q 9 1 12 6 Q 15 1 19 5 Q 23 9 20 13 Z");
+    svg.appendChild(path); heart.appendChild(svg);
     document.body.appendChild(heart);
     setTimeout(() => heart.remove(), 900);
 

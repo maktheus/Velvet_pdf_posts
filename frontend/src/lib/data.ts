@@ -1,5 +1,14 @@
-// Catálogo Pata de Veludo — foco gatos / brinquedos
-window.PV_DATA = {
+import type { Product, Kit, Category, Review } from './types';
+
+interface PVData {
+  categories: Category[];
+  collections: { id: string; title: string; tagline: string; bg: string }[];
+  products: Product[];
+  kits: Kit[];
+  reviews: Review[];
+}
+
+export const PV_DATA: PVData = {
   categories: [
     { id: "brincar", label: "Brincar", emoji: "play", desc: "Caça, salto e curiosidade" },
     { id: "descansar", label: "Descansar", emoji: "sleep", desc: "Toca, ninho e calor" },
@@ -38,8 +47,7 @@ window.PV_DATA = {
       colorways: ["#ed6058", "#2a1612", "#f2c98a"],
       tag: "Mais caçado",
       story: "Sensor de toque que muda o trajeto a cada vez. Ele nunca decora — e seu gato também nunca cansa.",
-      specs: ["Recarregável USB-C", "Autonomia 4h", "Modo noite silencioso"],
-      images: ["uploads/laranja-branco.jpg", "uploads/pasted-1778895193609-0.png", "uploads/pasted-1778895200553-0.png"]
+      specs: ["Recarregável USB-C", "Autonomia 4h", "Modo noite silencioso"]
     },
     {
       id: "varinha-pluma",
@@ -50,8 +58,7 @@ window.PV_DATA = {
       colorways: ["#fcebf1", "#ed6058"],
       tag: "Favorito da casa",
       story: "Cabo de bambu leve, penas trocáveis. Acabou a pena? A gente manda refil pelo Correio em envelope rosa.",
-      specs: ["Cabo 60cm", "3 plumas inclusas", "Refil disponível"],
-      images: ["uploads/siames-white.jpg", "uploads/gatos-branco.jpg", "uploads/pasted-1778895204950-0.png"]
+      specs: ["Cabo 60cm", "3 plumas inclusas", "Refil disponível"]
     },
     {
       id: "tunel-veludo",
@@ -62,8 +69,7 @@ window.PV_DATA = {
       colorways: ["#ed6058", "#fcebf1", "#fdfedf"],
       tag: "Novidade",
       story: "Dois metros de túnel dobrável forrado em pelúcia. Faz o barulho de papel amassado por dentro — irresistível.",
-      specs: ["2m × 25cm", "Dobrável", "Lavável à mão"],
-      images: ["uploads/gatos-branco.jpg", "uploads/sprinx-dois.png", "uploads/pasted-1778895210183-0.png"]
+      specs: ["2m × 25cm", "Dobrável", "Lavável à mão"]
     },
     {
       id: "bola-pena",
@@ -74,8 +80,7 @@ window.PV_DATA = {
       colorways: ["#ed6058", "#f2c98a", "#fcebf1"],
       tag: "Pack com 6",
       story: "Seis bolinhas de feltro com pena central. Voam, rolam e somem embaixo da geladeira — como manda a tradição.",
-      specs: ["Feltro 100% lã", "Sem cola", "Pack 6 unidades"],
-      images: ["uploads/XgZpL.jpg", "uploads/laranja-branco.jpg", "uploads/pasted-1778897490905-0.png"]
+      specs: ["Feltro 100% lã", "Sem cola", "Pack 6 unidades"]
     },
     {
       id: "puzzle-camarao",
@@ -87,7 +92,7 @@ window.PV_DATA = {
       tag: "Enriquecimento",
       story: "Comedouro interativo em forma de camarão. Esconde ração em 7 níveis de dificuldade — desacelera a comida e ocupa a mente.",
       specs: ["7 níveis", "Antiderrapante", "BPA-free"],
-      images: ["assets/puzzle-5.jpg", "assets/puzzle-2.jpg", "assets/puzzle-3.jpg", "assets/puzzle-1.png", "assets/puzzle-4.jpg"]
+      images: ["/assets/puzzle-5.jpg", "/assets/puzzle-2.jpg", "/assets/puzzle-3.jpg", "/assets/puzzle-1.png", "/assets/puzzle-4.jpg"]
     },
     {
       id: "fonte-petala",
@@ -98,8 +103,7 @@ window.PV_DATA = {
       colorways: ["#fcebf1", "#fdfedf", "#ed6058"],
       tag: "Best-seller",
       story: "Motor magnético quase inaudível, 2,5L, três modos de fluxo. Cerâmica leitosa por fora, filtro de carvão por dentro.",
-      specs: ["2,5L", "USB-C", "Filtro trocável"],
-      images: ["uploads/pasted-1778897490905-0.png", "uploads/siames-white.jpg", "uploads/gatos-branco.jpg"]
+      specs: ["2,5L", "USB-C", "Filtro trocável"]
     },
     {
       id: "ninho-pao",
@@ -110,8 +114,7 @@ window.PV_DATA = {
       colorways: ["#ed6058", "#fcebf1", "#2a1612"],
       tag: "Edição limitada",
       story: "Estofado em bouclê encorpado, base antiderrapante, miolo de espuma de alta densidade. Faz o gato virar pãozinho.",
-      specs: ["Ø 55cm", "Lavável", "Bouclê reciclado"],
-      images: ["uploads/sprinx-dois.png", "uploads/pasted-1778899245597-0.png", "uploads/gatos-branco.jpg"]
+      specs: ["Ø 55cm", "Lavável", "Bouclê reciclado"]
     },
     {
       id: "arranhador-onda",
@@ -122,8 +125,7 @@ window.PV_DATA = {
       colorways: ["#fdfedf", "#ed6058"],
       tag: "Recarga inclusa",
       story: "Papelão prensado de alta densidade em curva ergonômica. Vem com sachê de catnip e uma carta escrita à mão.",
-      specs: ["62 × 25cm", "Catnip incluso", "Recarga vendida à parte"],
-      images: ["uploads/pasted-1778895204950-0.png", "uploads/laranja-branco.jpg", "uploads/XgZpL.jpg"]
+      specs: ["62 × 25cm", "Catnip incluso", "Recarga vendida à parte"]
     },
     {
       id: "mochila-bolha",
@@ -134,8 +136,7 @@ window.PV_DATA = {
       colorways: ["#fcebf1", "#fdfedf"],
       tag: "Aprovado vet",
       story: "Bolha de policarbonato com ventilação cruzada, alças acolchoadas, base removível para lavar. Cabe gato até 7kg.",
-      specs: ["Até 7kg", "Ventilação 360°", "Base removível"],
-      images: ["uploads/pasted-1778895210183-0.png", "uploads/siames-white.jpg", "uploads/pasted-1778895200553-0.png"]
+      specs: ["Até 7kg", "Ventilação 360°", "Base removível"]
     },
     {
       id: "torre-arranhador-luxo",
@@ -147,8 +148,7 @@ window.PV_DATA = {
       colorways: ["#ed6058", "#fcebf1", "#2a1612"],
       tag: "−40%",
       story: "Torre arranhador em sisal natural com três plataformas, cabine forrada em pelúcia e brinquedo suspenso. Estrutura reforçada para gatos grandes.",
-      specs: ["1,20m altura", "Sisal natural", "Até 8kg por nível"],
-      images: ["uploads/pasted-1778899249556-0.png", "uploads/sprinx-dois.png", "uploads/gatos-branco.jpg"]
+      specs: ["1,20m altura", "Sisal natural", "Até 8kg por nível"]
     },
     {
       id: "tunel-3-saidas",
@@ -160,8 +160,7 @@ window.PV_DATA = {
       colorways: ["#ed6058", "#fdfedf", "#fcebf1"],
       tag: "Best-seller",
       story: "Túnel modular em formato Y com três entradas. Tecido crepitante por dentro, dobrável em segundos. Combina com mais túneis pra criar labirintos.",
-      specs: ["3 saídas", "Dobrável", "Tecido crepitante"],
-      images: ["uploads/pasted-1778895193609-0.png", "uploads/laranja-branco.jpg", "uploads/gatos-branco.jpg"]
+      specs: ["3 saídas", "Dobrável", "Tecido crepitante"]
     },
     {
       id: "varinha-laser-recarregavel",
@@ -173,8 +172,7 @@ window.PV_DATA = {
       colorways: ["#ed6058", "#2a1612"],
       tag: "−55%",
       story: "Laser recarregável USB-C com 3 padrões (ponto, peixe, estrela). Cabo leve, botão silencioso, autonomia de 6 horas de caçada.",
-      specs: ["USB-C", "3 padrões", "Autonomia 6h"],
-      images: ["uploads/XgZpL.jpg", "uploads/pasted-1778895193609-0.png", "uploads/siames-white.jpg"]
+      specs: ["USB-C", "3 padrões", "Autonomia 6h"]
     },
     {
       id: "bolinhas-crocantes",
@@ -186,8 +184,7 @@ window.PV_DATA = {
       colorways: ["#fcebf1", "#ed6058", "#fdfedf"],
       tag: "Pack 12",
       story: "Doze bolinhas leves de papel reciclado prensado. Fazem barulho de papel amassado, voam longe e custam quase nada — porque vão sumir embaixo do sofá mesmo.",
-      specs: ["Pack 12 unidades", "Papel reciclado", "Sem corantes"],
-      images: ["uploads/pasted-1778897490905-0.png", "uploads/laranja-branco.jpg", "uploads/gatos-branco.jpg"]
+      specs: ["Pack 12 unidades", "Papel reciclado", "Sem corantes"]
     }
   ],
   kits: [
