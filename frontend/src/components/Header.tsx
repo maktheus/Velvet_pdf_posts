@@ -31,7 +31,7 @@ export default function Header() {
             {menuOpen ? <><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></> : <><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></>}
           </svg>
         </button>
-        <Link href="/" className="mx-auto md:mx-0"><Logo size={72} /></Link>
+        <Link href="/" aria-label="Pata de Veludo — Início" className="mx-auto md:mx-0"><Logo size={72} /></Link>
         <nav className="hidden md:flex items-center gap-6 font-medium text-sm">
           {nav.map(l => <Link key={l.href} href={l.href} className="hover:text-[#ed6058] transition-colors">{l.label}</Link>)}
         </nav>

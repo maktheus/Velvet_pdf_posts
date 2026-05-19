@@ -3,12 +3,10 @@ import { test, expect } from "@playwright/test";
 test.describe("Checkout flow", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/cat/brincar");
-    // Add first product to cart
-    const addBtn = page.locator(".pv-product-add").first();
     await page.locator(".pv-product").first().hover();
-    await addBtn.click();
-    // Go to cart
-    await page.getByLabel("Carrinho", { exact: true }).click();
+    await page.locator(".pv-product-add").first().click();
+    // addItem() automatically opens the cart drawer — wait for it
+    await expect(page.getByRole("dialog")).toBeVisible();
   });
 
   test("cart shows added product", async ({ page }) => {
