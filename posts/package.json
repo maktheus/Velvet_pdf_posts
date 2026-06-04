@@ -1,0 +1,13 @@
+{
+  "name": "velvet-paw-post-generator",
+  "version": "1.0.0",
+  "description": "Instagram post generator for Pata de Veludo",
+  "main": "generate.js",
+  "scripts": {
+    "generate": "node generate.js",
+    "install-browser": "node node_modules/puppeteer/install.mjs"
+  },
+  "dependencies": {
+    "puppeteer": "^22.0.0"
+  }
+}
