@@ -1,6 +1,7 @@
 'use client';
 import { createContext, useContext, useState, useCallback } from 'react';
 import type { CartItem, Product } from '@/lib/types';
+import { trackEvent } from '@/lib/analytics';
 
 interface CartCtx {
   items: CartItem[];
@@ -25,6 +26,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       return [...prev, { product: p, qty: 1 }];
     });
     setCartOpen(true);
+    trackEvent('ADD_TO_CART', { productId: p.id });
   }, []);
 
   const removeItem = useCallback((id: string) => {

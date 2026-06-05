@@ -25,6 +25,21 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
 
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    timeout: 2000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 4
+        min-idle: 1
+
+  task:
+    execution:
+      pool:
+        core-size: 4
+
 server:
   port: ${PORT:8080}
   compression:
@@ -55,6 +70,13 @@ management:
   endpoint:
     health:
       show-details: when-authorized
+
+cache:
+  ttl:
+    theme: 300        # seconds
+    products: 120
+    product: 300
+    analytics: 3600
 
 springdoc:
   api-docs:
