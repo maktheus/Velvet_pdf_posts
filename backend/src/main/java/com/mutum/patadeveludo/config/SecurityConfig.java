@@ -59,6 +59,11 @@ public class SecurityConfig {
                 // Public: Actuator health
                 .requestMatchers("/actuator/health", "/actuator/info").permitAll()
 
+                // Public: store theme
+                .requestMatchers(HttpMethod.GET, "/api/store/theme").permitAll()
+                // Public: analytics event tracking
+                .requestMatchers(HttpMethod.POST, "/api/analytics/event").permitAll()
+
                 // Authenticated: order creation and customer profile
                 .requestMatchers(HttpMethod.POST, "/api/orders").authenticated()
                 .requestMatchers("/api/customers/me/**").authenticated()

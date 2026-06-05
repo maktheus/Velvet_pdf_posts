@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PillBtn } from '../shared';
 import { useCart } from '@/context/CartContext';
+import { trackEvent } from '@/lib/analytics';
 
 type Step = 'address'|'payment'|'confirm'|'done';
 
@@ -23,7 +24,13 @@ export default function CheckoutView() {
   const frete = total >= 149 ? 0 : 18;
   const totalFinal = total + frete - discount;
 
-  const go = (next: Step, direction = 1) => { setDir(direction); setStep(next); };
+  const go = (next: Step, direction = 1) => {
+    if (next === 'done') {
+      trackEvent('ORDER_COMPLETE', { revenue: totalFinal });
+    }
+    setDir(direction);
+    setStep(next);
+  };
 
   const applyCoupon = () => {
     if (coupon.trim().toUpperCase() === 'VELUDO10') setDiscount(+(total * 0.1).toFixed(2));

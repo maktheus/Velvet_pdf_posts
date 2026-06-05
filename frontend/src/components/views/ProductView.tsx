@@ -1,11 +1,12 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PillBtn, Badge } from '../shared';
 import ProductCard from '../ProductCard';
 import { useCart } from '@/context/CartContext';
 import type { Product } from '@/lib/types';
+import { trackEvent } from '@/lib/analytics';
 
 type Tab = 'historia' | 'ficha' | 'perguntas';
 
@@ -19,6 +20,10 @@ export default function ProductView({ product, related }: { product: Product; re
   const { addItem } = useCart();
   const router = useRouter();
   const [activeImg, setActiveImg] = useState(0);
+
+  useEffect(() => {
+    trackEvent('PRODUCT_VIEW', { productId: product.id });
+  }, [product.id]);
   const [qty, setQty] = useState(1);
   const [toast, setToast] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>('historia');
