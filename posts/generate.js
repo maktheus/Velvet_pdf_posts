@@ -231,7 +231,11 @@ async function renderToFile(html, outputPath, browser) {
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 async function main() {
-  const posts = require('./data/posts_data.js');
+  // Support --data <filename> to select posts data file (without .js extension)
+  // Usage: node generate.js --data cabelo_cacheado_posts
+  const dataArg = process.argv.indexOf('--data');
+  const dataFile = dataArg !== -1 ? process.argv[dataArg + 1] : 'posts_data';
+  const posts = require(`./data/${dataFile}.js`);
 
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
